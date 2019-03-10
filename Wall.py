@@ -1,6 +1,7 @@
 from tkinter import Canvas
+from PIL import ImageTk, Image
 
-class Wall(Cavnas):
+class Wall(Canvas):
     def __init__(self,wallpath,master):
         Canvas.__init__(self)
         self.master = master
@@ -9,4 +10,5 @@ class Wall(Cavnas):
         #set wall image
         self.wallimg = Image.open(wallpath)
         self.wallimgtk = ImageTk.PhotoImage(self.wallimg)
-        self.wallimgid = self.create_image(0,0,image=self.wallimgtk,anchor=NW)
+        self.config(width=self.wallimg.width,height=self.wallimg.height)
+        self.wallimgid = self.create_image(0,0,image=self.wallimgtk,anchor="nw")
