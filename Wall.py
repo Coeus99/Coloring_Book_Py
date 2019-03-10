@@ -10,4 +10,5 @@ class Wall(Canvas):
         #set wall image
         self.wallimg = Image.open(wallpath)
         self.wallimgtk = ImageTk.PhotoImage(self.wallimg)
+        self.config(width=self.wallimg.width,height=self.wallimg.height)
         self.wallimgid = self.create_image(0,0,image=self.wallimgtk,anchor="nw")
