@@ -7,8 +7,30 @@ class Wall(Canvas):
         self.master = master
         self.wallpath = wallpath
 
+        #event bindings
+        self.bind("<Configure>",self.on_resize)
+
         #set wall image
         self.wallimg = Image.open(wallpath)
         self.wallimgtk = ImageTk.PhotoImage(self.wallimg)
-        self.config(width=self.wallimg.width,height=self.wallimg.height)
+        self.wallimgid = self.create_image(0,0,image=self.wallimgtk,anchor="nw")
+
+        #get dimensions
+        self.width = self.wallimg.width
+        self.height = self.wallimg.height
+        self.config(width=self.width,height=self.height)
+
+    def on_resize(self,event):
+        #scale canvas
+        wscale = float(event.width)/self.width
+        self.width = event.width
+        self.height = int(self.height*wscale)
+        self.config(width=self.width,height=self.height)
+        self.scale("all",0,0,wscale,wscale)
+        #scale background
+        if(self.wallimgid):
+            self.delete(self.wallimgid)
+        newsize = int(self.width),int(self.height)
+        resizedimg = self.wallimg.resize(newsize)
+        self.wallimgtk = ImageTk.PhotoImage(resizedimg)
         self.wallimgid = self.create_image(0,0,image=self.wallimgtk,anchor="nw")
