@@ -11,7 +11,7 @@ class ColoringBook(Frame):
         #initialize walls
         self.leftwall = Wall("walls/left_wall_bolts.gif",self)
         self.rightwall = Wall("walls/right_wall_bolts.gif",self)
-        self.leftwall.pack(side="left")
+        self.leftwall.pack(fill="both",expand="yes",side="left")
 
         #start a new route
         newroute = Route()
