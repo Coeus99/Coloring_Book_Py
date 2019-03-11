@@ -22,11 +22,11 @@ class Wall(Canvas):
 
     def on_resize(self,event):
         #scale canvas
-        wscale = float(event.width)/self.width
-        self.width = event.width
-        self.height = int(self.height*wscale)
+        hscale = float(event.height)/self.height
+        self.height = event.height
+        self.width = int(self.width*hscale)
         self.config(width=self.width,height=self.height)
-        self.scale("all",0,0,wscale,wscale)
+        self.scale("all",0,0,hscale,hscale)
         #scale background
         if(self.wallimgid):
             self.delete(self.wallimgid)
