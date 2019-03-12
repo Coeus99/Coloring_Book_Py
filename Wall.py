@@ -1,5 +1,5 @@
 from tkinter import Canvas
-from PIL import ImageTk, Image
+from PIL import Image,ImageTk
 
 class Wall(Canvas):
     def __init__(self,wallpath,master):
