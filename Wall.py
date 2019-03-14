@@ -1,4 +1,4 @@
-from tkinter import Canvas
+from tkinter import Canvas,Widget
 from PIL import Image,ImageTk
 from Hold import Hold
 
@@ -45,4 +45,24 @@ class Wall(Canvas):
         y = hold.position[1] * self.hscale
         img = hold.get_imagetk(self.hscale)
         holdid = self.create_image(x,y,image=img)
+        #NOTE
+        #this next line creates a new object... so how will I modify the original when I move it?
+        #when saving the route do I have to just run through the dictionaries again?
+        #or can I use something similar to a C pointer in the dictionary instead?
         self.holddict[holdid]=hold
+        #moveable
+        Widget.bind(self, "<1>", self.mouse_down)
+        Widget.bind(self, "<B1-Motion>", self.mouse_move)
+
+    def mouse_down(self,event):
+        self.lastx = event.x
+        self.lasty = event.y
+
+    def mouse_move(self,event):
+        currentitemid = self.find_withtag("current")[0]
+        if (currentitemid != self.wallimgid):
+            self.move("current",event.x-self.lastx,event.y-self.lasty)
+            #here is where I need to update the route if I do not do it while saving the route (saving the route now seems like a better option
+        self.lastx = event.x
+        self.lasty = event.y
+
