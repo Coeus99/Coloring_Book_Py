@@ -15,12 +15,10 @@ class ColoringBook(Frame):
         self.leftwall.pack(fill="both",expand="yes",side="left")
         self.leftwallseen = True 
 
-        #start a new route
-        self.newroute = Route()
-
         #key bindings
         master.bind("n",self.cycle_wall)
         master.bind("a",self.add_hold)
+        master.bind("<Control-s>",self.save_route_as)
 
     def cycle_wall(self,event):
         if(self.leftwallseen):
@@ -40,4 +38,9 @@ class ColoringBook(Frame):
         else:
             newhold.wall = "right"
             self.rightwall.draw_hold(newhold)
-        self.newroute.holds.append(newhold)
+    
+    def save_route_as(self,event):
+        #create route class instance
+        newroute = Route()
+        #copy holds in wall dicts into route class
+        #write object to json file
