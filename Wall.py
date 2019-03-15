@@ -1,6 +1,7 @@
 from tkinter import Canvas,Widget
 from PIL import Image,ImageTk
 from Hold import Hold
+import utilities
 
 class Wall(Canvas):
     def __init__(self,wallpath,master):
@@ -46,15 +47,14 @@ class Wall(Canvas):
             yoffset = prevy * hscale - prevy
             self.move(holdid,xoffset,yoffset)
 
+    def clear(self):
+        self.delete("hold")
+
     def draw_hold(self,hold):
         x = hold.position[0] * self.totalscale
         y = hold.position[1] * self.totalscale
-        img = hold.get_imagetk(self.totalscale)
-        holdid = self.create_image(x,y,anchor="nw",image=img)
-        #NOTE
-        #this next line creates a new object... so how will I modify the original when I move it?
-        #when saving the route do I have to just run through the dictionaries again?
-        #or can I use something similar to a C pointer in the dictionary instead?
+        img = utilities.get_hold_imagetk(hold,self.totalscale)
+        holdid = self.create_image(x,y,anchor="nw",image=img,tags="hold")
         self.holddict[holdid]=hold
         #moveable
         Widget.bind(self, "<1>", self.mouse_down)

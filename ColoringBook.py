@@ -23,6 +23,7 @@ class ColoringBook(Frame):
         master.bind("n",self.cycle_wall)
         master.bind("a",self.add_hold)
         master.bind("<Control-s>",self.save_route_as)
+        master.bind("<Control-o>",self.open_route)
 
     def cycle_wall(self,event):
         if(self.leftwallseen):
@@ -52,5 +53,21 @@ class ColoringBook(Frame):
         for holdid in rightwallholds:
             self.newroute.holds.append(self.rightwall.holddict[holdid])
         #dump object to file
-        with open("temp.route", 'wb') as outfile:
+        with open("temp.route", "wb") as outfile:
             pickle.dump(self.newroute,outfile)
+
+    def open_route(self,event):
+        #clear current route
+        self.leftwall.clear()
+        self.rightwall.clear()
+        #read in route
+        with open("temp.route", "rb") as infile:
+            self.newroute = pickle.load(infile)
+        #draw route on walls
+        for hold in self.newroute.holds:
+            if (hold.wall == "left"):
+                self.leftwall.draw_hold(hold)
+            elif (hold.wall == "right"):
+                self.rightwall.draw_hold(hold)
+
+        
