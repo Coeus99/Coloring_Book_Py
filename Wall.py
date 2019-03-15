@@ -31,7 +31,6 @@ class Wall(Canvas):
         self.height = event.height
         self.width = int(self.width*hscale)
         self.config(width=self.width,height=self.height)
-        self.scale("all",0,0,hscale,hscale)
         #scale background
         if(self.wallimgid):
             self.delete(self.wallimgid)
@@ -39,12 +38,21 @@ class Wall(Canvas):
         resizedimg = self.wallimg.resize(newsize)
         self.wallimgtk = ImageTk.PhotoImage(resizedimg)
         self.wallimgid = self.create_image(0,0,image=self.wallimgtk,anchor="nw")
+        self.tag_lower(self.wallimgid)
+        #scale holds
+        for holdid in list(self.holddict):
+            prevx,prevy = self.coords(holdid)
+            xoffset = prevx * hscale - prevx
+            yoffset = prevy * hscale - prevy
+            self.move(holdid,xoffset,yoffset)
 
-    def draw_hold(self,hold):
-        x = hold.position[0] * self.hscale
-        y = hold.position[1] * self.hscale
+    def draw_hold(self,hold,x=-1,y=-1):
+        if (x==-1):
+            x = hold.position[0] * self.hscale
+        if (y==-1):
+            y = hold.position[1] * self.hscale
         img = hold.get_imagetk(self.hscale)
-        holdid = self.create_image(x,y,image=img)
+        holdid = self.create_image(x,y,anchor="nw",image=img)
         #NOTE
         #this next line creates a new object... so how will I modify the original when I move it?
         #when saving the route do I have to just run through the dictionaries again?
