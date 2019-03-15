@@ -1,3 +1,4 @@
+import pickle 
 from tkinter import Frame
 from Wall import Wall
 from Route import Route
@@ -14,6 +15,9 @@ class ColoringBook(Frame):
         self.rightwall = Wall("walls/right_wall_bolts.gif",self)
         self.leftwall.pack(fill="both",expand="yes",side="left")
         self.leftwallseen = True 
+
+        #route class to be worked on
+        self.newroute = Route()
 
         #key bindings
         master.bind("n",self.cycle_wall)
@@ -40,7 +44,13 @@ class ColoringBook(Frame):
             self.rightwall.draw_hold(newhold)
     
     def save_route_as(self,event):
-        #create route class instance
-        newroute = Route()
         #copy holds in wall dicts into route class
-        #write object to json file
+        leftwallholds = list(self.leftwall.holddict)
+        rightwallholds = list(self.rightwall.holddict)
+        for holdid in leftwallholds:
+            self.newroute.holds.append(self.leftwall.holddict[holdid])
+        for holdid in rightwallholds:
+            self.newroute.holds.append(self.rightwall.holddict[holdid])
+        #dump object to file
+        with open("temp.route", 'wb') as outfile:
+            pickle.dump(self.newroute,outfile)
