@@ -27,7 +27,7 @@ class Wall(Canvas):
     def on_resize(self,event):
         #scale canvas
         hscale = float(event.height)/self.height
-        self.hscale = hscale
+        self.totalscale = float(event.height)/self.wallimg.height
         self.height = event.height
         self.width = int(self.width*hscale)
         self.config(width=self.width,height=self.height)
@@ -46,12 +46,10 @@ class Wall(Canvas):
             yoffset = prevy * hscale - prevy
             self.move(holdid,xoffset,yoffset)
 
-    def draw_hold(self,hold,x=-1,y=-1):
-        if (x==-1):
-            x = hold.position[0] * self.hscale
-        if (y==-1):
-            y = hold.position[1] * self.hscale
-        img = hold.get_imagetk(self.hscale)
+    def draw_hold(self,hold):
+        x = hold.position[0] * self.totalscale
+        y = hold.position[1] * self.totalscale
+        img = hold.get_imagetk(self.totalscale)
         holdid = self.create_image(x,y,anchor="nw",image=img)
         #NOTE
         #this next line creates a new object... so how will I modify the original when I move it?
@@ -70,6 +68,8 @@ class Wall(Canvas):
         currentitemid = self.find_withtag("current")[0]
         if (currentitemid != self.wallimgid):
             self.move("current",event.x-self.lastx,event.y-self.lasty)
+            self.holddict[currentitemid].position[0] = int(event.x / self.totalscale)
+            self.holddict[currentitemid].position[1] = int(event.y / self.totalscale)
             #here is where I need to update the route if I do not do it while saving the route (saving the route now seems like a better option
         self.lastx = event.x
         self.lasty = event.y
