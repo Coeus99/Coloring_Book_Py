@@ -1,4 +1,4 @@
-from tkinter import Toplevel, Message, Button,Label,filedialog
+from tkinter import Toplevel,Message,Button,Label,Entry,filedialog
 from tkinter.colorchooser import askcolor
 from utilities import get_hold_imagetk
 
@@ -11,17 +11,6 @@ class EditHoldPopup(Toplevel):
         self.modified = False
         self.modifiedhold = hold
 
-        #######################
-        # hold         color  #
-        #  i             c    #
-        # new_i        new_c  #
-        #                     #
-        # pos                 #
-        # xyzr                #
-        #---------------------#
-        #           cancel  ok#
-        #######################
-
         #hold image
         hold_img = get_hold_imagetk(hold)
         self.hold_label = Label(self, image=hold_img)
@@ -33,13 +22,26 @@ class EditHoldPopup(Toplevel):
         color_button = Button(self, text="Change Color", command=self.on_color)
         color_button.grid(row=1,column=2)
 
-        position_text = Message(self, text="Position")
-        position_text.grid(row=3,column=0)
+        x_text = Message(self, text="x")
+        x_text.grid(row=3,column=0)
+        self.xentry = Entry(self)
+        self.xentry.insert(0,hold.position[0])
+        self.xentry.grid(row=4,column=0)
+        self.yentry = Entry(self)
+        y_text = Message(self, text="y")
+        y_text.grid(row=3,column=1)
+        self.yentry.grid(row=4,column=1)
+        self.yentry.insert(0,hold.position[1])
+        self.rentry = Entry(self)
+        r_text = Message(self, text="r")
+        r_text.grid(row=3,column=2)
+        self.rentry.insert(0,hold.position[2])
+        self.rentry.grid(row=4,column=2)
 
         cancel_button = Button(self, text="Cancel", command=self.on_cancel)
-        cancel_button.grid(row=4,column=0)
-        ok_button = Button(self, text="Ok", command=self.destroy)
-        ok_button.grid(row=4,column=1)
+        cancel_button.grid(row=5,column=0)
+        ok_button = Button(self, text="Ok", command=self.on_ok)
+        ok_button.grid(row=5,column=1)
 
     def show(self):
         self.transient(self.master)
@@ -73,6 +75,17 @@ class EditHoldPopup(Toplevel):
             colorlist.append(int(255))
             self.modifiedhold.RGBA = colorlist
             self.update_hold_img()
+
+    def check_positional_changes(self):
+        print("checking...")
+        #get new position list
+        #check if position list is different
+        #if it is, say it's been modified
+
+
+    def on_ok(self):
+        self.check_positional_changes()
+        self.destroy()
 
     def on_cancel(self):
         self.modified = False
