@@ -82,6 +82,7 @@ class Wall(Canvas):
         if (currentitemid != self.wallimgid):
             edditedhold = EditHoldPopup(self.holddict[currentitemid],self).show()
             if (edditedhold != None):
+                self.delete(currentitemid)
                 self.delete(self.holddict[currentitemid])
                 del self.holddict[currentitemid]
                 self.draw_hold(edditedhold)
