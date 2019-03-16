@@ -80,7 +80,7 @@ class Wall(Canvas):
     def on_double_button_1(self,event):
         currentitemid = self.find_withtag("current")[0]
         if (currentitemid != self.wallimgid):
-            edditedhold = EditHoldPopup(self.holddict[currentitemid],self)
+            edditedhold = EditHoldPopup(self.holddict[currentitemid],self).show()
             if (edditedhold != None):
                 self.delete(self.holddict[currentitemid])
                 del self.holddict[currentitemid]
