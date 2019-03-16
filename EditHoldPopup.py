@@ -22,16 +22,16 @@ class EditHoldPopup(Toplevel):
         #           cancel  ok#
         #######################
 
-        hold_text = Message(self, text="Hold Model")
-        hold_text.grid(row=0,column=0)
+        #hold image
         hold_img = get_hold_imagetk(hold)
         self.hold_label = Label(self, image=hold_img)
-        self.hold_label.grid(row=1,column=0)
-        hold_browse_button = Button(self, text="Browse", command=self.on_browse)
-        hold_browse_button.grid(row=2,column=0)
+        self.hold_label.grid(row=0,column=0,rowspan=2,columnspan=2)
 
-        color_text = Message(self, text="Color")
-        color_text.grid(row=0,column=1)
+        #options
+        hold_browse_button = Button(self, text="Browse Models", command=self.on_browse)
+        hold_browse_button.grid(row=0,column=2)
+        color_button = Button(self, text="Change Color", command=self.on_color)
+        color_button.grid(row=1,column=2)
 
         position_text = Message(self, text="Position")
         position_text.grid(row=3,column=0)
@@ -60,6 +60,18 @@ class EditHoldPopup(Toplevel):
         directory = filedialog.askopenfilename(parent=self,title="Open hold image",initialdir="./holds",defaultextension=".gif")
         self.modifiedhold.modelpath = directory
         self.update_hold_img()
+
+    def on_color(self):
+        color = askcolor()
+        if color != (None, None):
+            self.modified = True
+            color = color[0]
+            colorlist = []
+            for x in color:
+                colorlist.append(int(x))
+            colorlist.append(int(255))
+            self.modifiedhold.RGBA = colorlist
+            self.update_hold_img()
 
     def on_cancel(self):
         self.modified = False
