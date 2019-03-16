@@ -65,18 +65,13 @@ class ColoringBook(Frame):
             pickle.dump(self.newroute,outfile)
 
     def open_route(self,event):
-        #clear current route
-        self.leftwall.clear()
-        self.rightwall.clear()
-        #read in route
         infile = filedialog.askopenfile(parent=self,mode='rb',title="Open route",initialdir="./routes",defaultextension=".route")
         if (infile != None):
+            self.rightwall.clear()
+            self.leftwall.clear()
             self.newroute = pickle.load(infile)
-        #draw route on walls
-        for hold in self.newroute.holds:
-            if (hold.wall == "left"):
-                self.leftwall.draw_hold(hold)
-            elif (hold.wall == "right"):
-                self.rightwall.draw_hold(hold)
-
-        
+            for hold in self.newroute.holds:
+                if (hold.wall == "left"):
+                    self.leftwall.draw_hold(hold)
+                elif (hold.wall == "right"):
+                    self.rightwall.draw_hold(hold)
