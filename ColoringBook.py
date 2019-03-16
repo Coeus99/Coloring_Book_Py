@@ -53,8 +53,9 @@ class ColoringBook(Frame):
         for holdid in rightwallholds:
             self.newroute.holds.append(self.rightwall.holddict[holdid])
         #dump object to file
-        outfile = filedialog.asksaveasfile(parent=self,mode='wb',title="Save route as")
-        pickle.dump(self.newroute,outfile)
+        outfile = filedialog.asksaveasfile(parent=self,mode='wb',title="Save route as",initialdir="./routes",defaultextension=".route")
+        if (outfile != None):
+            pickle.dump(self.newroute,outfile)
 
     def open_route(self,event):
         #clear current route
