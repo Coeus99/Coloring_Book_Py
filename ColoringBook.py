@@ -62,7 +62,8 @@ class ColoringBook(Frame):
         self.leftwall.clear()
         self.rightwall.clear()
         #read in route
-        with open("temp.route", "rb") as infile:
+        infile = filedialog.askopenfile(parent=self,mode='rb',title="Open route",initialdir="./routes",defaultextension=".route")
+        if (infile != None):
             self.newroute = pickle.load(infile)
         #draw route on walls
         for hold in self.newroute.holds:
