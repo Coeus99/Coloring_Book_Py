@@ -22,6 +22,7 @@ class ColoringBook(Frame):
         #key bindings
         master.bind("n",self.cycle_wall)
         master.bind("a",self.add_hold)
+        master.bind("d",self.delete_hold)
         master.bind("<Control-s>",self.save_route_as)
         master.bind("<Control-o>",self.open_route)
 
@@ -43,6 +44,12 @@ class ColoringBook(Frame):
         else:
             newhold.wall = "right"
             self.rightwall.draw_hold(newhold)
+
+    def delete_hold(self,event):
+        if (self.leftwallseen):
+            self.leftwall.delete_hold()
+        else:
+            self.rightwall.delete_hold()
     
     def save_route_as(self,event):
         #copy holds in wall dicts into route class
