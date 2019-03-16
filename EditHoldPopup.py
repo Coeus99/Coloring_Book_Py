@@ -9,6 +9,7 @@ class EditHoldPopup(Toplevel):
         self.title("Edit hold")
 
         self.modified = False
+        self.originalhold = hold
         self.modifiedhold = hold
 
         #hold image
@@ -77,10 +78,13 @@ class EditHoldPopup(Toplevel):
             self.update_hold_img()
 
     def check_positional_changes(self):
-        print("checking...")
-        #get new position list
-        #check if position list is different
-        #if it is, say it's been modified
+        newposition = []
+        newposition.append(int(self.xentry.get()))
+        newposition.append(int(self.yentry.get()))
+        newposition.append(int(self.rentry.get()))
+        if (newposition != self.originalhold.position):
+            self.modifiedhold.position = newposition
+            self.modified = True
 
 
     def on_ok(self):
