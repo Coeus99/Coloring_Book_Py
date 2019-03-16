@@ -1,6 +1,7 @@
 from tkinter import Canvas,Widget
 from PIL import Image,ImageTk
 from Hold import Hold
+from EditHoldPopup import EditHoldPopup
 import utilities
 
 class Wall(Canvas):
@@ -11,6 +12,7 @@ class Wall(Canvas):
 
         #event bindings
         self.bind("<Configure>",self.on_resize)
+        self.bind("<Double-Button-1>",self.on_double_button_1)
 
         #set wall image
         self.wallimg = Image.open(wallpath)
@@ -41,6 +43,8 @@ class Wall(Canvas):
         self.wallimgid = self.create_image(0,0,image=self.wallimgtk,anchor="nw")
         self.tag_lower(self.wallimgid)
         #scale holds
+        #TODO
+        #only moves doesn't scale *yet*
         for holdid in list(self.holddict):
             prevx,prevy = self.coords(holdid)
             xoffset = prevx * hscale - prevx
@@ -77,7 +81,16 @@ class Wall(Canvas):
             self.move("current",event.x-self.lastx,event.y-self.lasty)
             self.holddict[currentitemid].position[0] = int(event.x / self.totalscale)
             self.holddict[currentitemid].position[1] = int(event.y / self.totalscale)
-            #here is where I need to update the route if I do not do it while saving the route (saving the route now seems like a better option
-        self.lastx = event.x
-        self.lasty = event.y
+            self.lastx = event.x
+            self.lasty = event.y
+
+    def on_double_button_1(self,event):
+        currentitemid = self.find_withtag("current")[0]
+        if (currentitemid != self.wallimgid):
+            edditedhold = EditHoldPopup(self.holddict[currentitemid],self).show()
+            if (edditedhold != None):
+                self.delete(currentitemid)
+                self.delete(self.holddict[currentitemid])
+                del self.holddict[currentitemid]
+                self.draw_hold(edditedhold)
 
