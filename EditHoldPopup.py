@@ -56,10 +56,11 @@ class EditHoldPopup(Toplevel):
         self.hold_label.update()
 
     def on_browse(self):
-        self.modified = True
         directory = filedialog.askopenfilename(parent=self,title="Open hold image",initialdir="./holds",defaultextension=".gif")
-        self.modifiedhold.modelpath = directory
-        self.update_hold_img()
+        if directory != ():
+            self.modified = True
+            self.modifiedhold.modelpath = directory
+            self.update_hold_img()
 
     def on_color(self):
         color = askcolor()
