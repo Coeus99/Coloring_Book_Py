@@ -60,6 +60,13 @@ class Wall(Canvas):
         Widget.bind(self, "<1>", self.mouse_down)
         Widget.bind(self, "<B1-Motion>", self.mouse_move)
 
+    def delete_hold(self):
+        currentitemid=self.find_withtag('current')[0]
+        if(currentitemid !=self.wallimgid):
+            self.delete(self.holddict[currentitemid])
+            del self.holddict[currentitemid]
+            self.delete(currentitemid)
+
     def mouse_down(self,event):
         self.lastx = event.x
         self.lasty = event.y
