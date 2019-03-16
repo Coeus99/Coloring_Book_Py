@@ -1,5 +1,5 @@
-import pickle 
-from tkinter import Frame
+import pickle
+from tkinter import Frame,filedialog
 from Wall import Wall
 from Route import Route
 from Hold import Hold
@@ -53,8 +53,8 @@ class ColoringBook(Frame):
         for holdid in rightwallholds:
             self.newroute.holds.append(self.rightwall.holddict[holdid])
         #dump object to file
-        with open("temp.route", "wb") as outfile:
-            pickle.dump(self.newroute,outfile)
+        outfile = filedialog.asksaveasfile(parent=self,mode='wb',title="Save route as")
+        pickle.dump(self.newroute,outfile)
 
     def open_route(self,event):
         #clear current route
