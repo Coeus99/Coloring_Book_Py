@@ -58,7 +58,7 @@ class Wall(Canvas):
         x = hold.position[0] * self.totalscale
         y = hold.position[1] * self.totalscale
         img = utilities.get_hold_imagetk(hold,self.totalscale)
-        holdid = self.create_image(x,y,anchor="nw",image=img,tags="hold")
+        holdid = self.create_image(x,y,image=img,tags="hold")
         self.holddict[holdid]=hold
         #moveable
         Widget.bind(self, "<1>", self.mouse_down)
