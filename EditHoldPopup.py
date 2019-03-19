@@ -39,10 +39,21 @@ class EditHoldPopup(Toplevel):
         self.rentry.insert(0,hold.position[2])
         self.rentry.grid(row=4,column=2)
 
+        xscale_text = Message(self, text="x-scale")
+        xscale_text.grid(row=5,column=0)
+        self.xscale_entry = Entry(self)
+        self.xscale_entry.insert(0,hold.xscale)
+        self.xscale_entry.grid(row=6,column=0)
+        yscale_text = Message(self, text="y_scale")
+        yscale_text.grid(row=5,column=1)
+        self.yscale_entry = Entry(self)
+        self.yscale_entry.insert(0,hold.yscale)
+        self.yscale_entry.grid(row=6,column=1)
+
         cancel_button = Button(self, text="Cancel", command=self.on_cancel)
-        cancel_button.grid(row=5,column=0)
+        cancel_button.grid(row=7,column=0)
         ok_button = Button(self, text="Ok", command=self.on_ok)
-        ok_button.grid(row=5,column=1)
+        ok_button.grid(row=7,column=1)
 
     def show(self):
         self.transient(self.master)
@@ -82,8 +93,16 @@ class EditHoldPopup(Toplevel):
         newposition.append(int(self.xentry.get()))
         newposition.append(int(self.yentry.get()))
         newposition.append(int(self.rentry.get()))
+        newxscale=float(self.xscale_entry.get())
+        newyscale=float(self.yscale_entry.get())
         if (newposition != self.originalhold.position):
             self.modifiedhold.position = newposition
+            self.modified = True
+        if(newxscale != self.originalhold.xscale):
+            self.modifiedhold.xscale = newxscale
+            self.modified = True
+        if(newyscale != self.originalhold.yscale):
+            self.modifiedhold.yscale = newyscale
             self.modified = True
 
 
