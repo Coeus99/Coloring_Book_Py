@@ -4,7 +4,7 @@ from tkinter import Label
 def get_hold_imagetk(hold,scale=1.0):
     img = Image.open(hold.modelpath)
     #scale image
-    scaledsize = int(img.width*scale),int(img.height*scale)
+    scaledsize = int(img.width*scale*hold.xscale),int(img.height*scale*hold.yscale)
     scaledimg = img.resize(scaledsize)
     #rotate image
     rotatedimg = (scaledimg.convert("RGBA")).rotate(hold.position[2],expand=True)
