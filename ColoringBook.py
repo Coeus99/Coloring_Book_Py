@@ -1,12 +1,12 @@
 import pickle
-from tkinter import Frame,filedialog
+from tkinter import Frame,Menu,filedialog
 from Wall import Wall
 from Route import Route
 from Hold import Hold
 
 class ColoringBook(Frame):
     def __init__(self,master):
-        Frame.__init__(self)
+        Frame.__init__(self,master)
         self.master = master
         master.title("Coloring Book Plus")
 
@@ -26,6 +26,9 @@ class ColoringBook(Frame):
         master.bind("<Control-s>",self.save_route_as)
         master.bind("<Control-o>",self.open_route)
 
+        #main menubar
+        self.init_mainmenubar()
+
     def cycle_wall(self,event):
         if(self.leftwallseen):
             self.leftwall.pack_forget()
@@ -40,9 +43,13 @@ class ColoringBook(Frame):
         newhold = Hold()
         if (self.leftwallseen):
             newhold.wall = "left"
+            newhold.position[0] = int(self.leftwall.width/2)
+            newhold.position[1] = int(self.leftwall.height/2)
             self.leftwall.draw_hold(newhold)
         else:
             newhold.wall = "right"
+            newhold.position[0] = int(self.rightwall.width/2)
+            newhold.position[1] = int(self.rightwall.height/2)
             self.rightwall.draw_hold(newhold)
 
     def delete_hold(self,event):
@@ -75,3 +82,26 @@ class ColoringBook(Frame):
                     self.leftwall.draw_hold(hold)
                 elif (hold.wall == "right"):
                     self.rightwall.draw_hold(hold)
+
+    def init_mainmenubar(self):
+        mainmenubar = Menu(self.master)
+        self.master.config(menu=mainmenubar)
+
+        #file menu
+        filemenu = Menu(mainmenubar)
+        mainmenubar.add_cascade(label="File", menu=filemenu)
+        filemenu.add_command(label="Save As", command=lambda:self.save_route_as(None))
+        filemenu.add_command(label="Open", command=lambda:self.open_route(None))
+
+        editmenu = Menu(mainmenubar)
+        editmenu.add_command(label="Add Hold", command=lambda:self.add_hold(None))
+        mainmenubar.add_cascade(label = "Edit",menu=editmenu)
+
+        windowmenu = Menu(mainmenubar)
+        mainmenubar.add_cascade(label = "Window",menu=windowmenu)
+
+        viewmenu = Menu(mainmenubar)
+        viewmenu.add_command(label="Cycle Wall", command=lambda:self.cycle_wall(None))
+        mainmenubar.add_cascade(label = "View",menu=viewmenu)
+
+
