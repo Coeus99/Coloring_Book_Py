@@ -54,6 +54,7 @@ class ColoringBook(Frame):
             self.rightwall.draw_hold(newhold)
 
     def delete_hold(self,event):
+        #hold is removed from route in the nested calls
         if (self.leftwallseen):
             self.leftwall.delete_hold()
         else:
