@@ -43,7 +43,7 @@ class ColoringBook(Frame):
     def add_hold(self,event):
         newhold = Hold()
         self.currentroute.holds.append(newhold)
-        if (self.leftwallseen):
+        if (self.leftwall.winfo_ismapped()):
             newhold.wall = "left"
             newhold.position[0] = int(self.leftwall.width/2)
             newhold.position[1] = int(self.leftwall.height/2)
@@ -56,7 +56,7 @@ class ColoringBook(Frame):
 
     def delete_hold(self,event):
         #hold is removed from route in the nested calls
-        if (self.leftwallseen):
+        if (self.leftwall.winfo_ismapped()):
             self.leftwall.delete_hold()
         else:
             self.rightwall.delete_hold()
