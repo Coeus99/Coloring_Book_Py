@@ -17,7 +17,7 @@ class ColoringBook(Frame):
         self.leftwallseen = True 
 
         #route class to be worked on
-        self.newroute = Route()
+        self.currentroute = Route()
 
         #key bindings
         master.bind("n",self.cycle_wall)
@@ -41,6 +41,7 @@ class ColoringBook(Frame):
 
     def add_hold(self,event):
         newhold = Hold()
+        self.currentroute.holds.append(newhold)
         if (self.leftwallseen):
             newhold.wall = "left"
             newhold.position[0] = int(self.leftwall.width/2)
@@ -59,25 +60,17 @@ class ColoringBook(Frame):
             self.rightwall.delete_hold()
     
     def save_route_as(self,event):
-        #copy holds in wall dicts into route class
-        leftwallholds = list(self.leftwall.holddict)
-        rightwallholds = list(self.rightwall.holddict)
-        for holdid in leftwallholds:
-            self.newroute.holds.append(self.leftwall.holddict[holdid])
-        for holdid in rightwallholds:
-            self.newroute.holds.append(self.rightwall.holddict[holdid])
-        #dump object to file
         outfile = filedialog.asksaveasfile(parent=self,mode='wb',title="Save route as",initialdir="./routes",defaultextension=".route")
         if (outfile != None):
-            pickle.dump(self.newroute,outfile)
+            pickle.dump(self.currentroute,outfile)
 
     def open_route(self,event):
         infile = filedialog.askopenfile(parent=self,mode='rb',title="Open route",initialdir="./routes",defaultextension=".route")
         if (infile != None):
             self.rightwall.clear()
             self.leftwall.clear()
-            self.newroute = pickle.load(infile)
-            for hold in self.newroute.holds:
+            self.currentroute = pickle.load(infile)
+            for hold in self.currentroute.holds:
                 if (hold.wall == "left"):
                     self.leftwall.draw_hold(hold)
                 elif (hold.wall == "right"):

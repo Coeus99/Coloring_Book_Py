@@ -67,6 +67,7 @@ class Wall(Canvas):
     def delete_hold(self):
         currentitemid=self.find_withtag('current')[0]
         if(currentitemid !=self.wallimgid):
+            self.master.currentroute.holds.remove(self.holddict[currentitemid])
             self.delete(self.holddict[currentitemid])
             del self.holddict[currentitemid]
             self.delete(currentitemid)
