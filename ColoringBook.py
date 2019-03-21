@@ -78,9 +78,9 @@ class ColoringBook(Frame):
                 elif (hold.wall == "right"):
                     self.rightwall.draw_hold(hold)
 
-    def display_route_window(self,event):
+    def display_route_window(self):
         if (self.route_window.winfo_ismapped()):
-            self.route_window.forget_pack()
+            self.route_window.pack_forget()
         else:
             self.route_window.pack(side='right')
 
@@ -99,7 +99,7 @@ class ColoringBook(Frame):
         mainmenubar.add_cascade(label = "Edit",menu=editmenu)
 
         windowmenu = Menu(mainmenubar)
-        windowmenu.add_command(label="Route", command=lambda:self.display_route_window(None))
+        windowmenu.add_command(label="Route", command=self.display_route_window)
         mainmenubar.add_cascade(label = "Window",menu=windowmenu)
 
         viewmenu = Menu(mainmenubar)
