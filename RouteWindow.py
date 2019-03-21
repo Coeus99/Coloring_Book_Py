@@ -5,20 +5,24 @@ class RouteWindow(Frame):
         Frame.__init__(self,master)
         self.master = master
 
+        #basic window formatting
+        self.borderwidth = 10
+
         #title of window
 
         #route name,grade
+        #grade with - on left + on right
 
         #holds
 
         #tags
 
         #add a tag
-        self.tag_entry = Entry()
+        self.tag_entry = Entry(self)
         self.tag_entry.insert(0,"Enter tag here.")
-        self.tag_entry.pack()
-        self.tag_button = Button(text="Add Tag",command=self.add_tag)
-        self.tag_button.pack()
+        self.tag_entry.grid(row=0,column=0)
+        self.tag_button = Button(self,text="Add Tag",command=self.add_tag)
+        self.tag_entry.grid(row=0,column=1)
 
     def add_tag():
         tag = self.tag_entry.get()

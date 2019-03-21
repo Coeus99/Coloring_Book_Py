@@ -15,7 +15,6 @@ class ColoringBook(Frame):
         self.leftwall = Wall("walls/left_wall_bolts.gif",self)
         self.rightwall = Wall("walls/right_wall_bolts.gif",self)
         self.leftwall.pack(fill="both",expand="yes",side="left")
-        self.leftwallseen = True 
 
         #route class to be worked on
         self.currentroute = Route()
@@ -34,14 +33,12 @@ class ColoringBook(Frame):
         self.route_window = RouteWindow(self)
 
     def cycle_wall(self,event):
-        if(self.leftwallseen):
+        if(self.leftwall.winfo_ismapped()):
             self.leftwall.pack_forget()
             self.rightwall.pack(fill="both",expand="yes",side="left")
-            self.leftwallseen = False
         else:
             self.rightwall.pack_forget()
             self.leftwall.pack(fill="both",expand="yes",side="left")
-            self.leftwallseen = True
 
     def add_hold(self,event):
         newhold = Hold()
