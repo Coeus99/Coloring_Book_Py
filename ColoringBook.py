@@ -3,7 +3,7 @@ from tkinter import Frame,Menu,filedialog
 from Wall import Wall
 from Route import Route
 from Hold import Hold
-from RouteWindow import RouteWindow
+from EditRoutePopup import EditRoutePopup
 
 class ColoringBook(Frame):
     def __init__(self,master):
@@ -28,9 +28,6 @@ class ColoringBook(Frame):
 
         #main menubar
         self.init_mainmenubar()
-
-        #route window
-        self.route_window = RouteWindow(self)
 
     def cycle_wall(self,event):
         if(self.leftwall.winfo_ismapped()):
@@ -96,10 +93,10 @@ class ColoringBook(Frame):
 
         editmenu = Menu(mainmenubar)
         editmenu.add_command(label="Add Hold", command=lambda:self.add_hold(None))
+        editmenu.add_command(label="Edit Route", command=lambda:EditRoutePopup(self).show())
         mainmenubar.add_cascade(label = "Edit",menu=editmenu)
 
         windowmenu = Menu(mainmenubar)
-        windowmenu.add_command(label="Route", command=self.display_route_window)
         mainmenubar.add_cascade(label = "Window",menu=windowmenu)
 
         viewmenu = Menu(mainmenubar)
