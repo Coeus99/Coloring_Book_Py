@@ -12,10 +12,13 @@ def get_hold_imagetk(hold,scale=1.0):
     recoloredimg = Image.new("RGBA",rotatedimg.size)
     recoloredimgdata = []
     for pixel in rotatedimg.getdata():
-        if pixel == (255,255,255,255):
-            recoloredimgdata.append(tuple(hold.RGBA))
-        else:
-            recoloredimgdata.append(pixel)
+        pixel = list(pixel)
+        alpha = pixel.pop()
+        if pixel == [255,255,255]:
+            pixel = hold.RGB.copy()
+        pixel.append(alpha)
+        recoloredimgdata.append(tuple(pixel))
+
     recoloredimg.putdata(recoloredimgdata)
     imgtk = ImageTk.PhotoImage(recoloredimg)
     label = Label(image=imgtk)
