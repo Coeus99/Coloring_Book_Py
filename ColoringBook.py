@@ -1,7 +1,7 @@
 import pickle
 from tkinter import Frame,Menu,filedialog
 from Wall import Wall
-from Route import Route
+from Route import Route,standardRoute,sequenceRoute
 from Hold import Hold
 from EditRoutePopup import EditRoutePopup
 
@@ -17,7 +17,7 @@ class ColoringBook(Frame):
         self.leftwall.pack(fill="both",expand="yes",side="left")
 
         #route class to be worked on
-        self.currentroute = Route()
+        self.currentroute = standardRoute()
 
         #key bindings
         master.bind("n",self.cycle_wall)
@@ -59,12 +59,12 @@ class ColoringBook(Frame):
             self.rightwall.delete_hold()
     
     def save_route_as(self,event):
-        outfile = filedialog.asksaveasfile(parent=self,mode='wb',title="Save route as",initialdir="./routes",defaultextension=".route")
+        outfile = filedialog.asksaveasfile(parent=self,mode='wb',title="Save route as",initialdir="./routes",defaultextension=".sroute")
         if (outfile != None):
             pickle.dump(self.currentroute,outfile)
 
     def open_route(self,event):
-        infile = filedialog.askopenfile(parent=self,mode='rb',title="Open route",initialdir="./routes",defaultextension=".route")
+        infile = filedialog.askopenfile(parent=self,mode='rb',title="Open route",initialdir="./routes",defaultextension=".sroute")
         if (infile != None):
             self.rightwall.clear()
             self.leftwall.clear()
