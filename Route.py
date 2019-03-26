@@ -1,5 +1,6 @@
 class Route:
     def __init__(self):
+        self.name = "Unnamed"
         self.holds = []
         self.grade = ("V",0,"")
         self.tags = []

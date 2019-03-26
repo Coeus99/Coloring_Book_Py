@@ -10,7 +10,11 @@ class EditRoutePopup(Toplevel):
 
         #title of window
 
-        #route name,grade
+        #route name
+        self.name_entry = Entry(self)
+        self.name_entry.insert(0,self.currentroute.name)
+        self.name_entry.grid(row=0,column=1)
+
         #grade with - on left + on right
 
         #holds
@@ -20,16 +24,22 @@ class EditRoutePopup(Toplevel):
         self.taglist.insert('end', "Tags:")
         for tag in self.currentroute.tags:
             self.taglist.insert('end',tag)
-        self.taglist.grid(row=0,column=0,columnspan=3)
+        self.taglist.grid(row=1,column=0,columnspan=3)
 
         #add a tag
         self.tag_entry = Entry(self)
         self.tag_entry.insert(0,"Enter tag here.")
-        self.tag_entry.grid(row=1,column=0)
+        self.tag_entry.grid(row=2,column=0)
         self.add_tag_button = Button(self,text="Add Tag",command=self.add_tag)
-        self.add_tag_button.grid(row=1,column=1)
+        self.add_tag_button.grid(row=2,column=1)
         self.rem_tag_button = Button(self,text="Remove Tag",command=self.rem_tag)
-        self.rem_tag_button.grid(row=1,column=2)
+        self.rem_tag_button.grid(row=2,column=2)
+
+        #cancel and ok
+        cancel_button = Button(self, text="Cancel", command = self.on_cancel)
+        cancel_button.grid(row=3,column=2)
+        ok_button = Button(self, text="Ok", command=self.on_ok)
+        ok_button.grid(row=3,column=3)
 
     def show(self):
         self.transient(self.master)
@@ -53,3 +63,11 @@ class EditRoutePopup(Toplevel):
         self.taglist.delete(1,'end')
         for tag in self.currentroute.tags:
             self.taglist.insert('end',tag)
+
+    def on_cancel(self):
+        self.destroy()
+
+    def on_ok(self):
+        routename = self.name_entry.get()
+        self.currentroute.name = routename
+        self.destroy()
