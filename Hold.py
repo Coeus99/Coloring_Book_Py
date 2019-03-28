@@ -7,4 +7,4 @@ class Hold:
         self.xscale = 1.0
         self.yscale = 1.0
         self.position = [0,0,0]
-        self.RGBA = [0,0,0,255]
+        self.RGB = [255,255,255]

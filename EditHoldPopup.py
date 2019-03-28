@@ -84,8 +84,7 @@ class EditHoldPopup(Toplevel):
             colorlist = []
             for x in color:
                 colorlist.append(int(x))
-            colorlist.append(int(255))
-            self.modifiedhold.RGBA = colorlist
+            self.modifiedhold.RGB = colorlist
             self.update_hold_img()
 
     def check_positional_changes(self):
