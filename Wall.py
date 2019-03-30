@@ -23,6 +23,7 @@ class Wall(Canvas):
         self.width = self.wallimg.width
         self.height = self.wallimg.height
         self.config(width=self.width,height=self.height)
+        self.totalscale = 1.0
 
         #keep track of holds on wall
         self.holddict = {}
