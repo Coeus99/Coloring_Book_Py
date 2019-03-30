@@ -1,8 +1,9 @@
 import pickle
 from tkinter import Frame,Menu,filedialog
 from Wall import Wall
-from Route import Route
+from Route import Route,standardRoute,sequenceRoute
 from Hold import Hold
+from EditRoutePopup import EditRoutePopup
 
 class ColoringBook(Frame):
     def __init__(self,master):
@@ -14,10 +15,9 @@ class ColoringBook(Frame):
         self.leftwall = Wall("walls/left_wall_bolts.gif",self)
         self.rightwall = Wall("walls/right_wall_bolts.gif",self)
         self.leftwall.pack(fill="both",expand="yes",side="left")
-        self.leftwallseen = True 
 
         #route class to be worked on
-        self.currentroute = Route()
+        self.currentroute = standardRoute()
 
         #key bindings
         master.bind("n",self.cycle_wall)
@@ -30,19 +30,17 @@ class ColoringBook(Frame):
         self.init_mainmenubar()
 
     def cycle_wall(self,event):
-        if(self.leftwallseen):
+        if(self.leftwall.winfo_ismapped()):
             self.leftwall.pack_forget()
             self.rightwall.pack(fill="both",expand="yes",side="left")
-            self.leftwallseen = False
         else:
             self.rightwall.pack_forget()
             self.leftwall.pack(fill="both",expand="yes",side="left")
-            self.leftwallseen = True
 
     def add_hold(self,event):
         newhold = Hold()
         self.currentroute.holds.append(newhold)
-        if (self.leftwallseen):
+        if (self.leftwall.winfo_ismapped()):
             newhold.wall = "left"
             newhold.position[0] = int(self.leftwall.width/2)
             newhold.position[1] = int(self.leftwall.height/2)
@@ -55,18 +53,18 @@ class ColoringBook(Frame):
 
     def delete_hold(self,event):
         #hold is removed from route in the nested calls
-        if (self.leftwallseen):
+        if (self.leftwall.winfo_ismapped()):
             self.leftwall.delete_hold()
         else:
             self.rightwall.delete_hold()
     
     def save_route_as(self,event):
-        outfile = filedialog.asksaveasfile(parent=self,mode='wb',title="Save route as",initialdir="./routes",defaultextension=".route")
+        outfile = filedialog.asksaveasfile(parent=self,mode='wb',title="Save route as",initialdir="./routes",defaultextension=".sroute")
         if (outfile != None):
             pickle.dump(self.currentroute,outfile)
 
     def open_route(self,event):
-        infile = filedialog.askopenfile(parent=self,mode='rb',title="Open route",initialdir="./routes",defaultextension=".route")
+        infile = filedialog.askopenfile(parent=self,mode='rb',title="Open route",initialdir="./routes",defaultextension=".sroute")
         if (infile != None):
             self.rightwall.clear()
             self.leftwall.clear()
@@ -76,6 +74,12 @@ class ColoringBook(Frame):
                     self.leftwall.draw_hold(hold)
                 elif (hold.wall == "right"):
                     self.rightwall.draw_hold(hold)
+
+    def display_route_window(self):
+        if (self.route_window.winfo_ismapped()):
+            self.route_window.pack_forget()
+        else:
+            self.route_window.pack(side='right')
 
     def init_mainmenubar(self):
         mainmenubar = Menu(self.master)
@@ -89,6 +93,7 @@ class ColoringBook(Frame):
 
         editmenu = Menu(mainmenubar)
         editmenu.add_command(label="Add Hold", command=lambda:self.add_hold(None))
+        editmenu.add_command(label="Edit Route", command=lambda:EditRoutePopup(self).show())
         mainmenubar.add_cascade(label = "Edit",menu=editmenu)
 
         windowmenu = Menu(mainmenubar)
